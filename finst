@@ -1,0 +1,44 @@
+#!/bin/bash
+
+cmd=$1
+
+
+function usage () 
+{
+	echo "Usage..."
+}
+
+function install () 
+{
+	case $1 in
+		arch)
+			install_arch
+			;;
+		aur)
+			;;
+		all)
+			;;
+	esac
+}
+
+function install_arch () 
+{
+	echo "INSTALLING PACKAGES----------------"
+	while IFS= read -r package
+	do
+		echo "INSTALLING PACKAGE $package"
+		sudo pacman -S --noconfirm $package
+	done < ~/repos/cfg/packages
+}
+
+case $cmd in
+	-S|install)
+		if [ ! -z $2 ]
+		then
+			install $2		
+		else
+			usage	
+		fi
+		;;
+esac
+
