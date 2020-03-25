@@ -1,12 +1,31 @@
 #!/bin/bash
 
+origin=$( pwd )
+
 cd ~/repos/cfg
 
-echo "COPYING CONFIG FILES"
-while IFS=";" read -r from to
-do
-	eval from=$from
-	eval to=$to
-	echo "Copying $from"
-	sudo cp $from $to
-done < ~/repos/cfg/filepaths
+if [ ! -z $1 ]
+then
+	found=$( grep "$1" filepaths | wc -l )
+	if [ $found -eq 1 ]
+	then
+		line=$( grep "$1" filepaths )
+		eval from=$( echo $line | cut -d";" -f1 )
+		eval to=$( echo $line | cut -d";" -f2 )
+		echo "Copying $from to $to"
+		sudo cp $from $to
+	else
+		echo "No matches found!"
+	fi
+else	
+	echo "Copying all config files"
+	while IFS=";" read -r from to
+	do
+		eval from=$from
+		eval to=$to
+		echo "Copying $from to $to"
+		sudo cp $from $to
+	done < filepaths
+fi
+
+cd $origin
