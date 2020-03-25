@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd ~/repos/cfg
+
+echo "COPYING CONFIG FILES"
+while IFS=";" read -r from to
+do
+	eval from=$from
+	eval to=$to
+	echo "Copying $from"
+	sudo cp $from $to
+done < ~/repos/cfg/filepaths
