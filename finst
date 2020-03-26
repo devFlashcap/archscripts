@@ -28,7 +28,7 @@ function install_arch ()
 	do
 		echo "INSTALLING PACKAGE $package"
 		sudo pacman -S --noconfirm $package
-	done < ~/repos/cfg/packages
+	done < ~./repos/cfg/packages
 }
 
 case $cmd in
